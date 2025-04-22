@@ -1,17 +1,21 @@
 import { create } from 'zustand';
 
+// Define the structure of a user object
 interface UserProps {
-  id: string;
-  name: string;
-  email: string;
+  id: string; // Unique identifier for the user
+  name: string; // Name of the user
+  email: string; // Email address of the user
 }
 
+// Define the structure of the user store
 interface UserStore {
-  user: UserProps[];
-  setUser: (user: UserProps) => void;
+  user: UserProps[]; // Array of user objects
+  setUser: (user: UserProps) => void; // Function to add a user to the store
 }
 
+// Create a Zustand store for managing user data
 export const useUser = create<UserStore>((set) => ({
-  user: [],
-  setUser: (user) => set((state) => ({ user: [...state.user, user] })),
+  user: [], // Initialize the user array as empty
+  setUser: (user) => 
+    set((state) => ({ user: [...state.user, user] })), // Add a new user to the array
 }));

@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VerifyCodeSchema, VerifyCodeForme } from "@/schemas/resetPassword";
 
+import { useUser } from "@/store/userStore";
+import { verifyCode } from "@/services/auth";
 
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
@@ -20,6 +22,7 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const VerifyCodePage = () => {
+  const { user } = useUser();
   const [code, setCode] = useState("");
 
   const { handleSubmit } = useForm<VerifyCodeForme>({
@@ -28,6 +31,11 @@ const VerifyCodePage = () => {
 
   const onSubmit = async (data: VerifyCodeForme) => {
     try {
+      const response = await verifyCode(user[0]?.email, data.code);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to verify code");
+      }
       window.location.href = "/auth/reset-password/reset-password";
     } catch (error) {
       console.error("Login failed:", error);

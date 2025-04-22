@@ -44,7 +44,7 @@ const LoginPage = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      setUser({ id: user.uid, email: user.email });
+      setUser({ id: user.uid, name: "", email: user.email });
       window.location.href = "/";
     } catch (error) {
       console.error("Login failed:", error);

@@ -7,6 +7,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ResetPasswordSchema, ResetPasswordForm } from "@/schemas/resetPassword";
 
+import { useUser } from "@/store/userStore";
+import { updatePassword } from "@/services/auth";
+
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 import { Button } from "@/components/Button";
@@ -19,6 +22,7 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const ResetPasswordPage = () => {
+  const { user } = useUser();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -28,6 +32,11 @@ const ResetPasswordPage = () => {
 
   const onSubmit = async (data: ResetPasswordForm) => {
     try {
+      const response = await updatePassword(user[0]?.email, data.password);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to update password");
+      }
       window.location.href = "/auth/login";
     } catch (error) {
       console.error("Login failed:", error);

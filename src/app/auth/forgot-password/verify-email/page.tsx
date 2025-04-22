@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VerifyEmailSchema, VerifyEmailForme } from "@/schemas/resetPassword";
 
+import { useUser } from "@/store/userStore";
 import { resetPassword } from "@/services/auth";
 
 import { Input } from "@/components/Input";
@@ -21,6 +22,7 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const VerifyEmail = () => {
+  const { setUser } = useUser();
   const [email, setEmail] = useState("");
 
   const { handleSubmit } = useForm<VerifyEmailForme>({
@@ -29,7 +31,13 @@ const VerifyEmail = () => {
 
   const onSubmit = async (data: VerifyEmailForme) => {
     try {
-      await resetPassword(data.email);
+      const response = await resetPassword(data.email);
+
+      if (response.status !== 200) {
+        throw new Error("Failed to send verification code");
+      }
+
+      setUser({ id: "", name: "", email: data.email });
       window.location.href = "/auth/reset-password/verify-code";
     } catch (error) {
       console.error("Login failed:", error);
