@@ -28,12 +28,17 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const { setUser } = useUser();
   const { handleSubmit } = useForm<LoginForm>({
     resolver: zodResolver(LoginSchema),
   });
 
   const onSubmit = async (data: LoginForm) => {
+    console.log("User data: " + data);
+
     try {
       const { email, password } = data;
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -146,7 +151,8 @@ const LoginPage = () => {
                       placeholder="john@company.com"
                       className="mt-2"
                       required
-                      aria-required="true"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                   <div className="space-y-2">
@@ -171,7 +177,8 @@ const LoginPage = () => {
                       placeholder="Password"
                       className="mt-2"
                       required
-                      aria-required="true"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
                   <Button className="w-full" type="submit">
