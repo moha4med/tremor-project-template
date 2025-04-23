@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Form Validation
 import { useForm } from "react-hook-form";
@@ -22,6 +23,8 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const ResetPasswordPage = () => {
+  const { t } = useTranslation();
+
   const { user } = useUser();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -101,16 +104,16 @@ const ResetPasswordPage = () => {
           <div className="w-full px-4 sm:max-w-sm sm:px-0">
             <div className="space-y-1">
               <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-50">
-                Reset Password
+                {t("fpd.resetPassword.title")}
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Enter your new password below.
+                {t("fpd.resetPassword.description")}
               </p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="new-password">New Password</Label>
+                <Label htmlFor="new-password">{t("authForm.password")}</Label>
                 <Input
                   id="new-password"
                   type="password"
@@ -123,7 +126,7 @@ const ResetPasswordPage = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirm-password">Confirm Password</Label>
+                <Label htmlFor="confirm-password">{t("authForm.ConfirmPassword")}</Label>
                 <Input
                   id="confirm-password"
                   type="password"
@@ -135,7 +138,7 @@ const ResetPasswordPage = () => {
                 />
               </div>
               <Button className="w-full" type="submit">
-                Reset Password
+                {t("fpd.resetPassword.button")}
               </Button>
             </form>
           </div>

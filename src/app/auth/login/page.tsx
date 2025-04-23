@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/Button";
 import { Divider } from "@/components/Divider";
@@ -28,6 +29,8 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const LoginPage = () => {
+  const { t } = useTranslation();
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -123,26 +126,28 @@ const LoginPage = () => {
             <div className="w-full px-4 sm:max-w-sm sm:px-0">
               <div className="space-y-1">
                 <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-50">
-                  Sign in to Platform
+                  {t("login.title")}
                 </h1>
+                
                 <p className="text-sm text-gray-700 dark:text-gray-400">
-                  Do not have an account?{" "}
+                  {t("login.subText")}{" "}
                   <Link
                     href="/auth/register"
                     className="font-medium text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                   >
-                    Register.
+                    {t("register.name")}.
                   </Link>
                 </p>
               </div>
-              <form className="mt-12" onSubmit={handleSubmit(onSubmit)}>
+
+              <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label
                       htmlFor="email"
                       className="text-sm font-medium text-gray-900 dark:text-gray-50"
                     >
-                      Email
+                      {t("authForm.email")}
                     </Label>
                     <Input
                       type="email"
@@ -155,19 +160,20 @@ const LoginPage = () => {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
+
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <Label
                         htmlFor="password"
                         className="text-sm font-medium text-gray-900 dark:text-gray-50"
                       >
-                        Password
+                        {t("authForm.password")}
                       </Label>
                       <a
-                        href="#"
+                        href="/auth/forgot-password/verify-email"
                         className="text-sm font-medium text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                       >
-                        Forgot password?
+                        {t("forgotPassword.name")}?
                       </a>
                     </div>
                     <Input
@@ -181,38 +187,42 @@ const LoginPage = () => {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
+
                   <Button className="w-full" type="submit">
-                    Continue
+                    {t("login.button")}
                   </Button>
                 </div>
               </form>
+
               <div>
-                <Divider>or</Divider>
+                <Divider>{t("or")}</Divider>
+
                 <div className="space-y-4">
                   <div className="flex w-full gap-4">
                     <Button onClick={handleGoogleLogin} className="w-full" variant="secondary">
                       <span className="inline-flex items-center gap-2">
                         <RiGoogleFill className="size-4" aria-hidden={true} />
-                        Login with Google
+                        {t("login.googleLogin")}
                       </span>
                     </Button>
                   </div>
                 </div>
+
                 <div className="mt-4">
                   <p className="text-xs text-gray-700">
-                    By signing in, you agree to our{" "}
+                    {t("login.agreeToTerms")}{" "}
                     <a
                       href="#"
                       className="text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                     >
-                      Terms of Service
+                      {t("termsOfService")}
                     </a>{" "}
                     and{" "}
                     <a
                       href="#"
                       className="text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                     >
-                      Privacy Policy.
+                      {t("privacyPolicy")}
                     </a>
                   </p>
                 </div>

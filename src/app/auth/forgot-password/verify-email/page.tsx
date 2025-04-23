@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Form Validation
 import { useForm } from "react-hook-form";
@@ -22,6 +23,8 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const VerifyEmail = () => {
+  const { t } = useTranslation();
+
   const { setUser } = useUser();
   const [email, setEmail] = useState("");
 
@@ -101,16 +104,16 @@ const VerifyEmail = () => {
           <div className="w-full px-4 sm:max-w-sm sm:px-0">
             <div className="space-y-1">
               <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-50">
-                Forgot Password
+                {t("fpd.verifyEmail.title")}
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Enter your email and we’ll send you a verification code.
+                {t("fpd.verifyEmail.description")}
               </p>
             </div>
             
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("authForm.email")}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -123,7 +126,7 @@ const VerifyEmail = () => {
               </div>
 
               <Button className="w-full" type="submit">
-                Send Verification Code
+                {t("fpd.verifyEmail.button")}
               </Button>
             </form>
           </div>

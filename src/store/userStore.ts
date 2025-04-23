@@ -7,7 +7,6 @@ interface UserProps {
   email: string; // Email address of the user
 }
 
-// Define the structure of the user store
 interface UserStore {
   user: UserProps[]; // Array of user objects
   setUser: (user: UserProps) => void; // Function to add a user to the store

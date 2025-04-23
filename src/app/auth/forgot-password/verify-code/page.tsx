@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Form Validation
 import { useForm } from "react-hook-form";
@@ -22,6 +23,8 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const VerifyCodePage = () => {
+  const { t } = useTranslation();
+
   const { user } = useUser();
   const [code, setCode] = useState("");
 
@@ -99,16 +102,16 @@ const VerifyCodePage = () => {
           <div className="w-full px-4 sm:max-w-sm sm:px-0">
             <div className="space-y-1">
               <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-50">
-                Verify Code
+                {t("fpd.verifyCode.title")}
               </h1>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Enter the code we sent to your email.
+                {t("fpd.verifyCode.description")}
               </p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="code">Verification Code</Label>
+                <Label htmlFor="code">{t("authForm.VerificationCode")}</Label>
                 <Input
                   id="code"
                   type="text"
@@ -120,7 +123,7 @@ const VerifyCodePage = () => {
                 />
               </div>
               <Button className="w-full" type="submit">
-                Verify Code
+                {t("fpd.verifyCode.button")}
               </Button>
             </form>
           </div>

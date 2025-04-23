@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { RiGoogleFill } from "@remixicon/react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/Button";
 import { Divider } from "@/components/Divider";
@@ -27,6 +28,8 @@ const MIN_SELECTED = 20;
 const MAX_SELECTED = 60;
 
 const RegisterPage = () => {
+  const { t } = useTranslation();
+
   const { handleSubmit } = useForm<RegisterForm>({
     resolver: zodResolver(RegisterSchema),
   });
@@ -129,19 +132,19 @@ const RegisterPage = () => {
             <div className="w-full px-4 sm:max-w-sm sm:px-0">
               <div className="space-y-1">
                 <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-50">
-                  Register to Platform
+                  {t("register.title")}
                 </h1>
                 <p className="text-sm text-gray-700 dark:text-gray-400">
-                  Have an account?{" "}
+                  {t("register.subText")}{" "}
                   <Link
                     href="/auth/login"
                     className="font-medium text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                   >
-                    Sign in.
+                    {t("login.name")}.
                   </Link>
                 </p>
               </div>
-              <form className="mt-12" onSubmit={handleSubmit(onSubmit)}>
+              <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-4">
                   <div className="flex space-x-4">
                     <div className="space-y-2">
@@ -149,7 +152,7 @@ const RegisterPage = () => {
                         htmlFor="first-name"
                         className="text-sm font-medium text-gray-900 dark:text-gray-50"
                       >
-                        First Name
+                        {t("authForm.firstName")}
                       </Label>
                       <Input
                         type="text"
@@ -167,7 +170,7 @@ const RegisterPage = () => {
                         htmlFor="last-name"
                         className="text-sm font-medium text-gray-900 dark:text-gray-50"
                       >
-                        Last Name
+                        {t("authForm.lastName")}
                       </Label>
                       <Input
                         type="text"
@@ -186,7 +189,7 @@ const RegisterPage = () => {
                       htmlFor="email"
                       className="text-sm font-medium text-gray-900 dark:text-gray-50"
                     >
-                      Email
+                      {t("authForm.email")}
                     </Label>
                     <Input
                       type="email"
@@ -205,7 +208,7 @@ const RegisterPage = () => {
                         htmlFor="password"
                         className="text-sm font-medium text-gray-900 dark:text-gray-50"
                       >
-                        Password
+                        {t("authForm.password")}
                       </Label>
                     </div>
                     <Input
@@ -225,7 +228,7 @@ const RegisterPage = () => {
                         htmlFor="confirm-password"
                         className="text-sm font-medium text-gray-900 dark:text-gray-50"
                       >
-                        Confirm Password
+                        {t("authForm.confirmPassword")}
                       </Label>
                     </div>
                     <Input
@@ -240,37 +243,39 @@ const RegisterPage = () => {
                   </div>
 
                   <Button className="w-full" type="submit">
-                    Continue
+                    {t("register.button")}
                   </Button>
                 </div>
               </form>
               <div>
-                <Divider>or</Divider>
+                <Divider>{t("or")}</Divider>
+
                 <div className="space-y-4">
                   <div className="flex w-full gap-4">
                     <Button onClick={handleGoogleRegister} className="w-full" variant="secondary">
                       <span className="inline-flex items-center gap-2">
                         <RiGoogleFill className="size-4" aria-hidden={true} />
-                        Register with Google
+                        {t("register.googleRegister")}
                       </span>
                     </Button>
                   </div>
                 </div>
+
                 <div className="mt-4">
                   <p className="text-xs text-gray-700">
-                    By signing up, you agree to our{" "}
+                    {t("register.agreeToTerms")}{" "}
                     <a
                       href="#"
                       className="text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                     >
-                      Terms of Service
+                      {t("termsOfService")}
                     </a>{" "}
                     and{" "}
                     <a
                       href="#"
                       className="text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                     >
-                      Privacy Policy.
+                      {t("privacyPolicy")}
                     </a>
                   </p>
                 </div>

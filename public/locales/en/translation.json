@@ -1,0 +1,56 @@
+{
+  "title": "Tremor Template",
+  "description": "A Next.js template with Tremor UI",
+  "homeButton": "Go to the login page",
+
+  "login": {
+    "name": "Login",
+    "description": "Sign in to your account",
+    "title": "Sign in to your account",
+    "subText": "Don't have an account?",
+    "button": "Sign in",
+    "googleLogin": "Sign in with Google",
+    "agreeToTerms": "By signing in, you agree to our"
+  },
+
+  "register": {
+    "name": "Register",
+    "description": "Create an account to access the platform",
+    "title": "Create an account",
+    "subText": "Already have an account?",
+    "button": "Sign up",
+    "googleRegister": "Sign up with Google",
+    "agreeToTerms": "By signing up, you agree to our"
+  },
+
+  "fpd": {
+    "verifyEmail": {
+      "title": "Forgot Password",
+      "description": "Enter your email and we’ll send you a verification code.",
+      "button": "Send Verification Code"
+    },
+    "verifyCode": {
+      "title": "Verify Code",
+      "description": "Enter the code we sent to your email.",
+      "button": "Verify Code"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "description": "Enter your new password below.",
+      "button": "Reset Password"
+    }
+  },
+
+  "authForm": {
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "VerificationCode": "Verification Code"
+  },
+
+  "or": "or",
+  "termsOfService": "Terms of Service",
+  "privacyPolicy": "Privacy Policy"
+}
