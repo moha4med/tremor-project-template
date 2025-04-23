@@ -24,6 +24,7 @@
   },
 
   "fpd": {
+    "name": "Forgot Password",
     "verifyEmail": {
       "title": "Forgot Password",
       "description": "Enter your email and we’ll send you a verification code.",

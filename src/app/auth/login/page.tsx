@@ -1,15 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useContext } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
+import { AuthContext } from "@/context/AuthContext";
+
+/* Components */
 import { Button } from "@/components/Button";
 import { Divider } from "@/components/Divider";
 import { Input } from "@/components/Input";
 import { Label } from "@/components/Label";
 
-// Form Validation
+/* Form Validation */
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, LoginForm } from "@/schemas/loginSchema";
@@ -30,12 +33,14 @@ const MAX_SELECTED = 60;
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const authContext = useContext(AuthContext);
 
   const { setUser } = useUser();
-  const { handleSubmit } = useForm<LoginForm>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<LoginForm>({
     resolver: zodResolver(LoginSchema),
   });
 
@@ -47,7 +52,8 @@ const LoginPage = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      setUser({ id: user.uid, name: "", email: user.email });
+      authContext?.login({ email: user.email || "", password });
+
       window.location.href = "/";
     } catch (error) {
       console.error("Login failed:", error);
@@ -60,13 +66,16 @@ const LoginPage = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      setUser({ id: user.uid, email: user.email });
+      setUser({ id: user.uid, name: "", email: user.email || "" });
       window.location.href = "/";
-    } catch (error: any) {
-      console.error("Google login failed:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Google login failed:", error.message);
+      } else {
+        console.error("Google login failed:", error);
+      }
     }
   };
-
 
   const [selectedDivs, setSelectedDivs] = useState(new Set());
 
@@ -128,7 +137,7 @@ const LoginPage = () => {
                 <h1 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-gray-50">
                   {t("login.title")}
                 </h1>
-                
+
                 <p className="text-sm text-gray-700 dark:text-gray-400">
                   {t("login.subText")}{" "}
                   <Link
@@ -152,13 +161,13 @@ const LoginPage = () => {
                     <Input
                       type="email"
                       id="email"
-                      name="email"
                       placeholder="john@company.com"
                       className="mt-2"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      {...register("email")}
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-500">{errors.email.message}</p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -173,19 +182,19 @@ const LoginPage = () => {
                         href="/auth/forgot-password/verify-email"
                         className="text-sm font-medium text-blue-500 hover:text-blue-600 dark:text-blue-500 hover:dark:text-blue-600"
                       >
-                        {t("forgotPassword.name")}?
+                        {t("fpd.name")}?
                       </a>
                     </div>
                     <Input
                       type="password"
                       id="password"
-                      name="password"
                       placeholder="Password"
                       className="mt-2"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      {...register("password")}
                     />
+                    {errors.password && (
+                      <p className="text-sm text-red-500">{errors.password.message}</p>
+                    )}
                   </div>
 
                   <Button className="w-full" type="submit">

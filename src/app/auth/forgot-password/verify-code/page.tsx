@@ -26,9 +26,12 @@ const VerifyCodePage = () => {
   const { t } = useTranslation();
 
   const { user } = useUser();
-  const [code, setCode] = useState("");
 
-  const { handleSubmit } = useForm<VerifyCodeForme>({
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm<VerifyCodeForme>({
     resolver: zodResolver(VerifyCodeSchema),
   });
 
@@ -117,10 +120,13 @@ const VerifyCodePage = () => {
                   type="text"
                   placeholder="123456"
                   className="mt-2"
-                  required
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
+                  {...register("code")}
                 />
+                {errors.code && (
+                  <p className="text-sm text-red-500">
+                    {errors.code.message}
+                  </p>
+                )}
               </div>
               <Button className="w-full" type="submit">
                 {t("fpd.verifyCode.button")}

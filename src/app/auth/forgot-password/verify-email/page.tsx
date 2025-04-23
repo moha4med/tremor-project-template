@@ -28,7 +28,10 @@ const VerifyEmail = () => {
   const { setUser } = useUser();
   const [email, setEmail] = useState("");
 
-  const { handleSubmit } = useForm<VerifyEmailForme>({
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = useForm<VerifyEmailForme>({
     resolver: zodResolver(VerifyEmailSchema),
   });
 
@@ -46,7 +49,6 @@ const VerifyEmail = () => {
       console.error("Login failed:", error);
     }
   };
-
 
   const [selectedDivs, setSelectedDivs] = useState(new Set());
   const totalDivs = TOTAL_ROWS * TOTAL_COLS;
@@ -110,7 +112,7 @@ const VerifyEmail = () => {
                 {t("fpd.verifyEmail.description")}
               </p>
             </div>
-            
+
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">{t("authForm.email")}</Label>
@@ -119,10 +121,14 @@ const VerifyEmail = () => {
                   type="email"
                   placeholder="you@example.com"
                   className="mt-2"
-                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <Button className="w-full" type="submit">

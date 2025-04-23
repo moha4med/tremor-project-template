@@ -26,10 +26,12 @@ const ResetPasswordPage = () => {
   const { t } = useTranslation();
 
   const { user } = useUser();
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { handleSubmit } = useForm<ResetPasswordForm>({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<ResetPasswordForm>({
     resolver: zodResolver(ResetPasswordSchema),
   });
 
@@ -45,7 +47,6 @@ const ResetPasswordPage = () => {
       console.error("Login failed:", error);
     }
   };
-
 
   const [selectedDivs, setSelectedDivs] = useState(new Set());
 
@@ -119,10 +120,13 @@ const ResetPasswordPage = () => {
                   type="password"
                   placeholder="••••••••"
                   className="mt-2"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register("password")}
                 />
+                {errors.password && (
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -132,10 +136,13 @@ const ResetPasswordPage = () => {
                   type="password"
                   placeholder="••••••••"
                   className="mt-2"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  {...register("confirmPassword")}
                 />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-red-500">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
               <Button className="w-full" type="submit">
                 {t("fpd.resetPassword.button")}

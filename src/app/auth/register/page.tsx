@@ -19,7 +19,6 @@ import { register } from "@/services/auth";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
-
 // Animation parameters
 const TOTAL_ROWS = 40;
 const TOTAL_COLS = 40;
@@ -30,26 +29,34 @@ const MAX_SELECTED = 60;
 const RegisterPage = () => {
   const { t } = useTranslation();
 
-  const { handleSubmit } = useForm<RegisterForm>({
+  const {
+    handleSubmit,
+    register: formRegister,
+    formState: { errors },
+  } = useForm<RegisterForm>({
     resolver: zodResolver(RegisterSchema),
   });
-  
+
   const onSubmit = async (data: RegisterForm) => {
     try {
       const { email, password } = data;
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      await register (
+      await register(
         data.firstName,
         data.lastName,
-        user.email,
+        user.email || "",
         data.password
-      )
+      );
 
       window.location.href = "/auth/login";
-    } catch (error: any) {
-      console.error("Registration failed:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Registration failed:", error.message);
+      } else {
+        console.error("Registration failed:", error);
+      }
     }
   };
 
@@ -63,16 +70,19 @@ const RegisterPage = () => {
       await register(
         firstName,
         lastName,
-        user.email,
+        user.email || "",
         "GoogleAuthPassword"
       );
 
       window.location.href = "/auth/login";
-    } catch (error: any) {
-      console.error("Google registration failed:", error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Registration failed:", error.message);
+      } else {
+        console.error("Registration failed:", error);
+      }
     }
   };
-
 
   const [selectedDivs, setSelectedDivs] = useState(new Set());
 
@@ -157,12 +167,15 @@ const RegisterPage = () => {
                       <Input
                         type="text"
                         id="firstName"
-                        name="first-name"
+                        {...formRegister("firstName")}
                         placeholder="John"
                         className="mt-2"
-                        required
-                        aria-required="true"
                       />
+                      {errors.firstName && (
+                        <p className="text-sm text-red-500">
+                          {errors.firstName.message}
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -175,12 +188,15 @@ const RegisterPage = () => {
                       <Input
                         type="text"
                         id="lastName"
-                        name="last-name"
+                        {...formRegister("lastName")}
                         placeholder="Doe"
                         className="mt-2"
-                        required
-                        aria-required="true"
                       />
+                      {errors.lastName && (
+                        <p className="text-sm text-red-500">
+                          {errors.lastName.message}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -194,12 +210,15 @@ const RegisterPage = () => {
                     <Input
                       type="email"
                       id="email"
-                      name="email"
+                      {...formRegister("email")}
                       placeholder="john@company.com"
                       className="mt-2"
-                      required
-                      aria-required="true"
                     />
+                    {errors.email && (
+                      <p className="text-sm text-red-500">
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -214,12 +233,15 @@ const RegisterPage = () => {
                     <Input
                       type="password"
                       id="password"
-                      name="password"
+                      {...formRegister("password")}
                       placeholder="Password"
                       className="mt-2"
-                      required
-                      aria-required="true"
                     />
+                    {errors.password && (
+                      <p className="text-sm text-red-500">
+                        {errors.password.message}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -234,12 +256,15 @@ const RegisterPage = () => {
                     <Input
                       type="password"
                       id="confirmPassword"
-                      name="confirm-password"
+                      {...formRegister("confirmPassword")}
                       placeholder="Confirm Password"
                       className="mt-2"
-                      required
-                      aria-required="true"
                     />
+                    {errors.confirmPassword && (
+                      <p className="text-sm text-red-500">
+                        {errors.confirmPassword.message}
+                      </p>
+                    )}
                   </div>
 
                   <Button className="w-full" type="submit">
