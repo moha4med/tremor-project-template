@@ -42,7 +42,8 @@ const VerifyCodePage = () => {
       if (response.status !== 200) {
         throw new Error("Failed to verify code");
       }
-      window.location.href = "/auth/reset-password/reset-password";
+
+      window.location.href = "/auth/forgot-password/reset-password";
     } catch (error) {
       console.error("Login failed:", error);
     }

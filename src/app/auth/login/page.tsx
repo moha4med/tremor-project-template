@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState, useContext } from "react";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 
+/* Context */
 import { AuthContext } from "@/context/AuthContext";
 
 /* Components */

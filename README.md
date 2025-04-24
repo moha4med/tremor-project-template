@@ -83,7 +83,7 @@ Ensure you have the following installed:
    ```
 
 3. Configure Firebase:
-   - Add your Firebase configuration in the `.env.local` file in the root directory:
+   - Add your Firebase configuration in the `.env` file in the root directory:
 
      ```
      NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
@@ -113,13 +113,6 @@ Ensure you have the following installed:
 - [Zustand](https://github.com/pmndrs/zustand) - State management library.
 - [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework.
 - [TypeScript](https://www.typescriptlang.org) - Type-safe JavaScript.
-
-## Available Scripts
-
-- `npm run dev`: Start the development server.
-- `npm run build`: Build the application for production.
-- `npm run start`: Start the production server.
-- `npm run lint`: Analyze code for potential issues with ESLint.
 
 ## Features to Add
 

@@ -24,7 +24,6 @@ const MAX_SELECTED = 60;
 
 const ResetPasswordPage = () => {
   const { t } = useTranslation();
-
   const { user } = useUser();
 
   const {
@@ -42,6 +41,7 @@ const ResetPasswordPage = () => {
       if (response.status !== 200) {
         throw new Error("Failed to update password");
       }
+      
       window.location.href = "/auth/login";
     } catch (error) {
       console.error("Login failed:", error);
